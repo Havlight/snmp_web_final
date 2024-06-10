@@ -9,7 +9,7 @@ def split_varBind(varBind):
     value = parts[1].split(" = ")[1]
 
     result = {
-        "mib": mib,
+        # "mib": mib,
         "oid": oid,
         "value": value
     }

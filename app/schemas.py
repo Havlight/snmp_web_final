@@ -1,4 +1,4 @@
-from ninja import ModelSchema, Schema
+from ninja import Schema
 
 
 class Error(Schema):
@@ -16,7 +16,7 @@ class MacTableSchema(Schema):
 
 
 class GenericMibResultSchema(Schema):
-    mib: str
+    # mib: str
     oid: str
     value: str
 
@@ -36,3 +36,9 @@ class PortError(Schema):
     port: int
     error_diff: int
     error_rate: float
+
+
+class VlanIn(Schema):
+    id: int
+    name: str
+    ports: list[int]

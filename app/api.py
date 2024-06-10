@@ -1,8 +1,10 @@
 from ninja_extra import NinjaExtraAPI, api_controller, route
 from pysnmp.smi.rfc1902 import ObjectType, ObjectIdentity
 
-from app.schemas import MacTableSchema, GenericMibResultSchema, PortWarningSchema, PortRateSchema, Error, PortError
-from app.snmp_utils import mac_table, port_traffic, port_status, rate_limit, rmon, securedClient, test_lost_packet, main
+from app.schemas import MacTableSchema, GenericMibResultSchema, PortWarningSchema, PortRateSchema, Error, PortError, \
+    VlanIn
+from app.snmp_utils import mac_table, port_traffic, port_status, rate_limit, rmon, securedClient, test_lost_packet, \
+    main, VLAN
 
 app = NinjaExtraAPI()
 
@@ -202,6 +204,29 @@ class PacketLost:
         return test_lost_packet.get_OutErrors(1)
 
 
+@api_controller('/vlan', tags=['vlan'])
+class VlanController:
+    @route.get('/infos', response=list[GenericMibResultSchema])
+    def get_info(self):
+        return VLAN.get_vlan_info()
+
+    @route.post('/create', response={200: GenericMibResultSchema, 304: Error})
+    def create_vlan(self, data: VlanIn):
+        r = VLAN.create_vlan('10.91.0.27', data.id, data.name, data.ports)
+        if r:
+            return 200, r
+        else:
+            return 304, {"message": "error"}
+
+    @route.delete('/delete/{int:id}', response={200: GenericMibResultSchema, 304: Error})
+    def delete_vlan(self, id: int):
+        r = VLAN.delete_vlan('10.91.0.27', id)
+        if r:
+            return 200, r
+        else:
+            return 304, {"message": "error"}
+
+
 app.register_controllers(SearchController, MacContorller, PortStatusController, TrafficController, LimitController,
-                         Rmon, SecuredClient,
+                         Rmon, SecuredClient, VlanController,
                          PacketLost)
