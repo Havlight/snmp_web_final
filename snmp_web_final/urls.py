@@ -16,9 +16,12 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from app.api import app
+from ninja_extra import NinjaExtraAPI
+# from ninja.security import django_auth
 
+app = NinjaExtraAPI()
+app.auto_discover_controllers()
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('api/', app.urls)
+    path('api/', app.urls),
 ]

@@ -6,8 +6,6 @@ from app.schemas import MacTableSchema, GenericMibResultSchema, PortWarningSchem
 from app.snmp_utils import mac_table, port_traffic, port_status, rate_limit, rmon, securedClient, test_lost_packet, \
     main, VLAN
 
-app = NinjaExtraAPI()
-
 
 @api_controller('/search', tags=['search oid'])
 class SearchController:
@@ -225,8 +223,3 @@ class VlanController:
             return 200, r
         else:
             return 304, {"message": "error"}
-
-
-app.register_controllers(SearchController, MacContorller, PortStatusController, TrafficController, LimitController,
-                         Rmon, SecuredClient, VlanController,
-                         PacketLost)

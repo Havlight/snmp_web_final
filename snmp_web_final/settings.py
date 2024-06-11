@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'ninja_extra',
     'app',
     'corsheaders',
+    'accounts',
 ]
 
 MIDDLEWARE = [
