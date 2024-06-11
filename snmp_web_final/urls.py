@@ -21,6 +21,7 @@ from ninja_extra import NinjaExtraAPI
 
 app = NinjaExtraAPI()
 app.auto_discover_controllers()
+
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/', app.urls),
